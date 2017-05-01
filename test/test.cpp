@@ -356,9 +356,10 @@ void DestroyMemory(WorldParameters *world_parameters) {
 // output.wav : argv[2] Output file
 // f0         : argv[3] F0 scaling (a positive number)
 // spec       : argv[4] Formant shift (a positive number)
+// ts		  : argv[5] Time stretching (a positive number)
 //-----------------------------------------------------------------------------
 int main(int argc, char *argv[]) {
-  if (argc != 2 && argc != 3 && argc != 4 && argc != 5) {
+  if (argc != 2 && argc != 3 && argc != 4 && argc != 5 && argc != 6) {
     printf("error\n");
     return -2;
   }
@@ -415,6 +416,14 @@ int main(int argc, char *argv[]) {
   // The length of the output waveform
   int y_length = static_cast<int>((world_parameters.f0_length - 1) *
     world_parameters.frame_period / 1000.0 * fs) + 1;
+
+  // Time streching.
+  if (argc > 5) {
+	  const double timeStretching = min( max( 0.001, atof(argv[5])), 100.0);
+	  world_parameters.frame_period *= timeStretching;
+	  y_length = static_cast<int>(ceil(y_length * timeStretching));
+  }
+
   double *y = new double[y_length];
 
   // Synthesis 1 (conventional synthesis)
