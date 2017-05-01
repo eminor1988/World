@@ -419,9 +419,9 @@ int main(int argc, char *argv[]) {
 
   // Time streching.
   if (argc > 5) {
-	  const double timeStretching = min( max( 0.001, atof(argv[5])), 100.0);
-	  world_parameters.frame_period *= timeStretching;
-	  y_length = static_cast<int>(ceil(y_length * timeStretching));
+	  const double time_stretching = min( max( 0.001, atof(argv[5])), 100.0);
+	  world_parameters.frame_period *= time_stretching;
+	  y_length = static_cast<int>(ceil(y_length * time_stretching));
   }
 
   double *y = new double[y_length];
